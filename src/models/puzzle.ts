@@ -1,0 +1,69 @@
+import { Puzzle } from "./models";
+
+export let puzzles: Puzzle[] = [
+  {
+    letters: ["c", "l", "i", "a", "m", "d", "e"],
+    questions: [
+      {
+        hint: "Often together with vision and dental",
+        answer: "medical",
+      },
+      {
+        hint: "In a cookie? That's nuts!",
+        answer: "macadamia",
+      },
+      {
+        hint: "Based on 10",
+        answer: "decimal",
+      },
+      {
+        hint: "A difficult choice, or the prisoner's this",
+        answer: "dilemma",
+      },
+      {
+        hint: "A newborn this has no humps",
+        answer: "camel",
+      },
+      {
+        hint: "To distribute among players",
+        answer: "deal",
+      },
+      {
+        hint: "Hundreds of billions are sent every day, but not by the USPS",
+        answer: "email",
+      },
+      {
+        hint: "A tight contract is said to be iron-this",
+        answer: "clad",
+      },
+      {
+        hint: "directed toward some target",
+        answer: "aimed",
+      },
+      {
+        hint: "100 of these make a Hamilton",
+        answer: "dime",
+      },
+      {
+        hint: "Highly accomplished, respected, awarded",
+        answer: "acclaimed",
+      },
+      {
+        hint: "A luxury vehicle, Bruno Mars wants you to jump in his",
+        answer: "cadillac",
+      },
+      {
+        hint: "This little creature emerges in intervals of 13 or 17 years",
+        answer: "cicada",
+      },
+      {
+        hint: "To be a god killer one must commit this",
+        answer: "deicide",
+      },
+      {
+        hint: "soybeans still in the pod, ordered as an appetizer",
+        answer: "edamame",
+      },
+    ],
+  },
+];

@@ -1,25 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  AppBar,
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+  Paper,
+} from "@mui/material";
+import { CharacterButton } from "./components/characterButton";
+import { Puzzle } from "./models/models";
+import { useState } from "react";
+import CharacterBox from "./components/characterBox";
+import { puzzles } from "./models/puzzle";
+import InfoIcon from "@mui/icons-material/Info";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Game } from "./components/game";
+import { GameBuilder } from "./components/gameBuilder";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter basename="/words">
+      <Routes>
+        <Route path="/" element={<Game />} />
+        <Route path="/:code" element={<Game />} />
+        <Route path="/create" element={<GameBuilder />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
