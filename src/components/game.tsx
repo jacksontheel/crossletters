@@ -7,16 +7,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Link,
   Paper,
 } from "@mui/material";
 import { CharacterButton } from "./characterButton";
 import { useEffect, useState } from "react";
 import CharacterBox from "./characterBox";
 import { puzzles } from "../models/puzzle";
-import InfoIcon from "@mui/icons-material/Info";
 import { useParams } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { Puzzle } from "../models/models";
+import { NavBar } from "./navBar";
 
 const supabase = createClient(
   "https://dhhhpggijxgbjejwfuja.supabase.co",
@@ -109,9 +110,7 @@ export function Game(props: GameProps) {
 
   return (
     <Paper style={styles.root}>
-      <AppBar position="sticky" style={styles.box}>
-        <h1>Crossletters</h1>
-      </AppBar>
+      <NavBar />
       {puzzle != null && (
         <Box style={styles.root}>
           <Box style={styles.box}>
@@ -138,7 +137,7 @@ export function Game(props: GameProps) {
               )}
             </Paper>
           </Box>
-          <div id="adsf">
+          <div>
             <Box style={styles.box}>
               {puzzle.letters.slice(0, 4).map((l) => (
                 <CharacterButton

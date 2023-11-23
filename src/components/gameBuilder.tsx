@@ -17,6 +17,7 @@ import { Question } from "../models/models";
 import { useState } from "react";
 import { CommaSeparatedList } from "./commaSeparatedList";
 import { createClient } from "@supabase/supabase-js";
+import { NavBar } from "./navBar";
 
 const supabase = createClient(
   "https://dhhhpggijxgbjejwfuja.supabase.co",
@@ -108,7 +109,7 @@ export function GameBuilder(props: GameBuilderProps) {
 
   const styles = {
     root: {
-      minHeight: "100vh"
+      minHeight: "100vh",
     },
     box: {
       display: "flex",
@@ -136,9 +137,7 @@ export function GameBuilder(props: GameBuilderProps) {
 
   return (
     <Paper style={styles.root}>
-      <AppBar position="sticky" style={styles.box}>
-        <h1>Crossletters</h1>
-      </AppBar>
+      <NavBar />
       <h1 style={styles.box}>Letters</h1>
       <Box style={styles.box}>
         <Paper elevation={3} style={styles.card}>
