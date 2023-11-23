@@ -13,7 +13,7 @@ export function NavBar(props: NavBarProps) {
       alignItems: "center",
     } as const,
     item: {
-      margin: "20px",
+      margin: "0px 10px",
     },
   };
   return (
@@ -21,7 +21,7 @@ export function NavBar(props: NavBarProps) {
       <Link href="/words" style={styles.item}>
         <h1>Crossletters</h1>
       </Link>
-      <Link href="/words/create" style={styles.item}>
+      <Link href="/words/create">
         <Button
           variant="outlined"
           startIcon={<CreateIcon />}
