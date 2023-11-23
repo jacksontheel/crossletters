@@ -12,7 +12,7 @@ export default function CharacterBox(props: CharacterBoxProps) {
       width: `${50 / props.size}vw`,
       height: "100px",
       margin: "6px",
-      backgroundColor: props.correct ? "#4edb84" : "white",
+      backgroundColor: props.correct ? "#2aa849" : "#121212",
 
       display: "flex",
       alignItems: "center",

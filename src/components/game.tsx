@@ -108,9 +108,9 @@ export function Game(props: GameProps) {
   };
 
   return (
-    <Box style={styles.root}>
+    <Paper style={styles.root}>
       <AppBar position="sticky" style={styles.box}>
-        <h1>Untitled Word Game</h1>
+        <h1>Crossletters</h1>
       </AppBar>
       {puzzle != null && (
         <Box style={styles.root}>
@@ -170,7 +170,7 @@ export function Game(props: GameProps) {
             keepMounted
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>{"Untitled Word Game"}</DialogTitle>
+            <DialogTitle>Crossletters</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 Thanks for playing the demo! If you have the time, please fill
@@ -186,6 +186,6 @@ export function Game(props: GameProps) {
           </Dialog>
         </Box>
       )}
-    </Box>
+    </Paper>
   );
 }

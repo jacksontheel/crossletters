@@ -9,6 +9,8 @@ import {
   DialogTitle,
   IconButton,
   Paper,
+  ThemeProvider,
+  createTheme,
 } from "@mui/material";
 import { CharacterButton } from "./components/characterButton";
 import { Puzzle } from "./models/models";
@@ -20,15 +22,23 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Game } from "./components/game";
 import { GameBuilder } from "./components/gameBuilder";
 
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
+
 function App() {
   return (
-    <BrowserRouter basename="/words">
-      <Routes>
-        <Route path="/" element={<Game />} />
-        <Route path="/:code" element={<Game />} />
-        <Route path="/create" element={<GameBuilder />} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider theme={darkTheme}>
+      <BrowserRouter basename="/words">
+        <Routes>
+          <Route path="/" element={<Game />} />
+          <Route path="/:code" element={<Game />} />
+          <Route path="/create" element={<GameBuilder />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

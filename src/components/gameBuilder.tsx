@@ -8,6 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  Link,
   Paper,
   TextField,
 } from "@mui/material";
@@ -106,6 +107,9 @@ export function GameBuilder(props: GameBuilderProps) {
   };
 
   const styles = {
+    root: {
+      minHeight: "100vh"
+    },
     box: {
       display: "flex",
       flexDirection: "row",
@@ -131,9 +135,9 @@ export function GameBuilder(props: GameBuilderProps) {
   };
 
   return (
-    <Box>
+    <Paper style={styles.root}>
       <AppBar position="sticky" style={styles.box}>
-        <h1>Untitled Word Game</h1>
+        <h1>Crossletters</h1>
       </AppBar>
       <h1 style={styles.box}>Letters</h1>
       <Box style={styles.box}>
@@ -258,16 +262,24 @@ export function GameBuilder(props: GameBuilderProps) {
             <p>
               Your puzzle has been created and can be shared with this link:
             </p>
-            <a href={"https://jacksontheel.com/words/" + link}>
+            <Link href={"https://jacksontheel.com/words/" + link}>
               {"jacksontheel.com/words/" + link}
-            </a>
+            </Link>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => navigator.clipboard.writeText("https://jacksontheel.com/words/" + link)}>Copy link</Button>
+          <Button
+            onClick={() =>
+              navigator.clipboard.writeText(
+                "https://jacksontheel.com/words/" + link,
+              )
+            }
+          >
+            Copy link
+          </Button>
           <Button onClick={() => setFinished(false)}>Close</Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </Paper>
   );
 }
