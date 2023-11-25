@@ -40,13 +40,23 @@ export function Game(props: GameProps) {
     if (data != null && data.length > 0) {
       setPuzzle((data[0] as any).data as Puzzle);
     } else {
-      setPuzzle(puzzles[0]);
+      setPuzzle(puzzles[getDaysSinceStart() % puzzles.length]);
     }
   };
 
   useEffect(() => {
     loadPuzzle();
+    getDaysSinceStart();
   }, []);
+
+  let getDaysSinceStart = () => {
+    let date1 = new Date("11/24/2023");
+    let date2 = new Date();
+
+    let Difference_In_Time = date2.getTime() - date1.getTime();
+
+    return Math.floor(Difference_In_Time / (1000 * 3600 * 24));
+  };
 
   let changeActiveQuestion = (increment: number) => {
     if (puzzle == null) {
