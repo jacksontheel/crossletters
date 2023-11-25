@@ -27,7 +27,7 @@ export function CommaSeparatedList(props: CommaSeparatedListProps) {
     let letterSet = new Set<string>();
     e.target.value.split("").forEach((v) => {
       if (v.match(/[a-z]/i)) {
-        letterSet.add(v);
+        letterSet.add(v.toUpperCase());
       }
     });
     props.setLetterSet(letterSet);

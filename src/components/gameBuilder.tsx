@@ -61,7 +61,7 @@ export function GameBuilder(props: GameBuilderProps) {
   let getError = (answer: string, s: Set<string>) => {
     let error = false;
     answer.split("").forEach((l) => {
-      error = error || !s.has(l);
+      error = error || !s.has(l.toUpperCase());
     });
     return error;
   };
