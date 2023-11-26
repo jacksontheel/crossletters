@@ -34,20 +34,20 @@ export function Game(props: GameProps) {
   let [progress, setProgress] = useState(0);
   let { code } = useParams();
 
-  let loadPuzzle = async () => {
-    const { data } = await supabase.from("puzzles").select().eq("code", code);
-
-    if (data != null && data.length > 0) {
-      setPuzzle((data[0] as any).data as Puzzle);
-    } else {
-      setPuzzle(puzzles[getDaysSinceStart() % puzzles.length]);
-    }
-  };
-
   useEffect(() => {
+    let loadPuzzle = async () => {
+      const { data } = await supabase.from("puzzles").select().eq("code", code);
+
+      if (data != null && data.length > 0) {
+        setPuzzle((data[0] as any).data as Puzzle);
+      } else {
+        setPuzzle(puzzles[getDaysSinceStart() % puzzles.length]);
+      }
+    };
+
     loadPuzzle();
     getDaysSinceStart();
-  }, []);
+  }, [code]);
 
   let getDaysSinceStart = () => {
     let date1 = new Date("11/24/2023");
@@ -92,7 +92,7 @@ export function Game(props: GameProps) {
         puzzle.questions[activeQuestion].correct = true;
         let newProgress = progress + 1;
         setProgress(newProgress);
-        if (newProgress == puzzle.questions.length) {
+        if (newProgress === puzzle.questions.length) {
           setDialogActive(true);
         }
       }
