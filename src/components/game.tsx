@@ -46,7 +46,6 @@ export function Game(props: GameProps) {
     };
 
     loadPuzzle();
-    getDaysSinceStart();
   }, [code]);
 
   let getDaysSinceStart = () => {
