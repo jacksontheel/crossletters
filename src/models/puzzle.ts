@@ -126,8 +126,73 @@ export let puzzles: Puzzle[] = [
         answer: "assists",
       },
       {
-        hint: "For music: Bach, Beethoven. For film: Kubrick, Welles.",
+        hint: "The works of Bach, Beethoven, Kubrick, or Welles.",
         answer: "classics",
+      },
+    ],
+  },
+  {
+    letters: ["i", "n", "a", "c", "o", "g", "r"],
+    questions: [
+      {
+        hint: "From life. For vegetables, it's more expensive",
+        answer: "organic",
+      },
+      {
+        hint: "The fruit of the mighty oak",
+        answer: "acorn",
+      },
+      {
+        hint: "Eating a lot, like one may do on Thanksgiving",
+        answer: "gorging",
+      },
+      {
+        hint: "This wears a mask and steals your garbage",
+        answer: "racoon",
+      },
+      {
+        hint: "Birds and babies are doing this, making a noise",
+        answer: "cooing",
+      },
+      {
+        hint: "The plant that Wonka made his fortune from",
+        answer: "cacao",
+      },
+      {
+        hint: "A group put together for organized crime",
+        answer: "gang",
+      },
+      {
+        hint: "Symbolic and emblemattic. Instantly recognizable",
+        answer: "iconic",
+      },
+      {
+        hint: "They have layers, like ogres",
+        answer: "onion",
+      },
+      {
+        hint: "After a loud concert, you might hear this for a while",
+        answer: "ringing",
+      },
+      {
+        hint: 'European/Asian wind instrument. Link plays the "of time" variety',
+        answer: "ocarina",
+      },
+      {
+        hint: "If you're being attacked aboard you pirate ship, you man this",
+        answer: "cannon",
+      },
+      {
+        hint: "Wipe it off your face if you're trying to seem serious",
+        answer: "grin",
+      },
+      {
+        hint: "To take some steam and get wrinkles out of your clothes",
+        answer: "ironing",
+      },
+      {
+        hint: "What you should try if you fail?",
+        answer: "again",
       },
     ],
   },
