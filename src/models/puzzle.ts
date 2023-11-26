@@ -179,7 +179,7 @@ export let puzzles: Puzzle[] = [
         answer: "ocarina",
       },
       {
-        hint: "If you're being attacked aboard you pirate ship, you man this",
+        hint: "If you're being attacked aboard your pirate ship, you man this",
         answer: "cannon",
       },
       {
@@ -193,6 +193,71 @@ export let puzzles: Puzzle[] = [
       {
         hint: "What you should try if you fail?",
         answer: "again",
+      },
+    ],
+  },
+  {
+    letters: ["i", "o", "r", "e", "t", "n", "p"],
+    questions: [
+      {
+        hint: "This person translates from one language to another, on the spot",
+        answer: "interpreter",
+      },
+      {
+        hint: "Cylinder-shaped pasta",
+        answer: "penne",
+      },
+      {
+        hint: "When something happens again. When something happens again.",
+        answer: "repetition",
+      },
+      {
+        hint: "Someone with whom you have equal standing. Or to gaze",
+        answer: "peer",
+      },
+      {
+        hint: "Hope you saved room for this after the appetizer",
+        answer: "entree",
+      },
+      {
+        hint: "If you make it past this, you're safe from teen pregnancy",
+        answer: "nineteen",
+      },
+      {
+        hint: "Where a monkey might perch to look at everything below",
+        answer: "treetop",
+      },
+      {
+        hint: "They're made of chains of amino acids. A staple of a paleo diet",
+        answer: "protein",
+      },
+      {
+        hint: "It goes in a shaker. After med school, it goes in a can",
+        answer: "pepper",
+      },
+      {
+        hint: "The month old vegetables at the back of your fridge are this",
+        answer: "rotten",
+      },
+      {
+        hint: "404: clue not found",
+        answer: "error",
+      },
+      {
+        hint: "Includes the Airedale, American Hairless, American Staffordshire",
+        answer: "terrier",
+      },
+      {
+        hint: "This person owns and runs the business",
+        answer: "proprietor",
+      },
+      {
+        hint: "Not capable of moving or acting, like the noble gases",
+        answer: "inert",
+      },
+      {
+        hint: "Alchemist's brew",
+        answer: "potion",
       },
     ],
   },

@@ -1,5 +1,4 @@
 import {
-  AppBar,
   Box,
   Button,
   Dialog,
@@ -7,7 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Link,
+  IconButton,
   Paper,
 } from "@mui/material";
 import { CharacterButton } from "./characterButton";
@@ -18,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 import { Puzzle } from "../models/models";
 import { NavBar } from "./navBar";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 const supabase = createClient(
   "https://dhhhpggijxgbjejwfuja.supabase.co",
@@ -103,7 +103,7 @@ export function Game(props: GameProps) {
     root: {
       display: "flex",
       flexDirection: "column",
-      height: "100vh",
+      minHeight: "100vh",
       justifyContent: "space-between",
     } as const,
     box: {
@@ -120,7 +120,13 @@ export function Game(props: GameProps) {
 
   return (
     <Paper style={styles.root}>
-      <NavBar />
+      <NavBar
+        elements={[
+          <IconButton onClick={() => setDialogActive(true)}>
+            <BarChartIcon />
+          </IconButton>,
+        ]}
+      />
       {puzzle != null && (
         <Box style={styles.root}>
           <Box style={styles.box}>
@@ -179,17 +185,37 @@ export function Game(props: GameProps) {
             keepMounted
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>Crossletters</DialogTitle>
+            <DialogTitle>
+              Crossletters {(getDaysSinceStart() % puzzles.length) + 1}
+            </DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Thanks for playing the demo! If you have the time, please fill
-                out the{" "}
-                <a href="https://forms.gle/rHrUZkNXFcaqDwY87">following form</a>{" "}
-                with your feedback. You were sent the demo because your input
-                would mean a lot to me.
+                <p>
+                  You've completed {progress} questions out of{" "}
+                  {puzzle.questions.length}
+                </p>
+                <p>
+                  {puzzle.questions.map((q) => (q.correct ? " 🟢 " : " ⚫ "))}
+                </p>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
+              <Button
+                onClick={() => {
+                  if (puzzle != null) {
+                    navigator.clipboard.writeText(
+                      "Crossletters " +
+                        ((getDaysSinceStart() % puzzles.length) + 1) +
+                        " " +
+                        puzzle.questions
+                          .map((q) => (q.correct ? " 🟢 " : " ⚫ "))
+                          .join(""),
+                    );
+                  }
+                }}
+              >
+                Copy score
+              </Button>
               <Button onClick={() => setDialogActive(false)}>Close</Button>
             </DialogActions>
           </Dialog>

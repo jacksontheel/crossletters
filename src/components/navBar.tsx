@@ -1,8 +1,10 @@
-import { AppBar, Button, Link } from "@mui/material";
+import { AppBar, Button, IconButton, Link } from "@mui/material";
 import CreateIcon from "@mui/icons-material/Create";
-import * as React from "react";
+import { ReactElement } from "react";
 
-export interface NavBarProps {}
+export interface NavBarProps {
+  elements?: ReactElement[];
+}
 
 export function NavBar(props: NavBarProps) {
   const styles = {
@@ -21,15 +23,14 @@ export function NavBar(props: NavBarProps) {
       <Link href="/words" style={styles.item}>
         <h1>Crossletters</h1>
       </Link>
-      <Link href="/words/create">
-        <Button
-          variant="outlined"
-          startIcon={<CreateIcon />}
-          style={styles.item}
-        >
-          Create
-        </Button>
-      </Link>
+      <div>
+        {props.elements != null && props.elements.map((e) => e)}
+        <Link href="/words/create">
+          <IconButton>
+            <CreateIcon />
+          </IconButton>
+        </Link>
+      </div>
     </AppBar>
   );
 }
