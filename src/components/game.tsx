@@ -185,9 +185,7 @@ export function Game(props: GameProps) {
             keepMounted
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>
-              Crossletters {(getDaysSinceStart() % puzzles.length) + 1}
-            </DialogTitle>
+            <DialogTitle>Crossletters</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 <p>
@@ -205,8 +203,6 @@ export function Game(props: GameProps) {
                   if (puzzle != null) {
                     navigator.clipboard.writeText(
                       "Crossletters " +
-                        ((getDaysSinceStart() % puzzles.length) + 1) +
-                        " " +
                         puzzle.questions
                           .map((q) => (q.correct ? " 🟢 " : " ⚫ "))
                           .join(""),
