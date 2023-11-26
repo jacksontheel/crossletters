@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Autocomplete,
   Box,
   Button,
   Dialog,
@@ -9,8 +10,15 @@ import {
   DialogTitle,
   IconButton,
   Link,
+  ListSubheader,
   Paper,
+  Popper,
   TextField,
+  Typography,
+  autocompleteClasses,
+  styled,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Question } from "../models/models";
@@ -18,6 +26,9 @@ import { useState } from "react";
 import { CommaSeparatedList } from "./commaSeparatedList";
 import { createClient } from "@supabase/supabase-js";
 import { NavBar } from "./navBar";
+import { words } from "../models/words";
+import { ListChildComponentProps, VariableSizeList } from "react-window";
+import React from "react";
 
 const supabase = createClient(
   "https://dhhhpggijxgbjejwfuja.supabase.co",
@@ -33,6 +44,121 @@ export function GameBuilder(props: GameBuilderProps) {
   ]);
   let [link, setLink] = useState("");
   let [finished, setFinished] = useState(false);
+
+  const regex = new RegExp(`^[${Array.from(letters).join("")}]*$`);
+  console.log(regex);
+  const answerOptions = words.filter((w) => regex.test(w.toUpperCase()));
+
+  const LISTBOX_PADDING = 8; // px
+
+  function renderRow(props: ListChildComponentProps) {
+    const { data, index, style } = props;
+    const dataSet = data[index];
+    const inlineStyle = {
+      ...style,
+      top: (style.top as number) + LISTBOX_PADDING,
+    };
+
+    if (dataSet.hasOwnProperty("group")) {
+      return (
+        <ListSubheader key={dataSet.key} component="div" style={inlineStyle}>
+          {dataSet.group}
+        </ListSubheader>
+      );
+    }
+
+    return (
+      <Typography component="li" {...dataSet[0]} noWrap style={inlineStyle}>
+        {`#${dataSet[2] + 1} - ${dataSet[1]}`}
+      </Typography>
+    );
+  }
+
+  const OuterElementContext = React.createContext({});
+
+  const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
+    const outerProps = React.useContext(OuterElementContext);
+    return <div ref={ref} {...props} {...outerProps} />;
+  });
+
+  function useResetCache(data: any) {
+    const ref = React.useRef<VariableSizeList>(null);
+    React.useEffect(() => {
+      if (ref.current != null) {
+        ref.current.resetAfterIndex(0, true);
+      }
+    }, [data]);
+    return ref;
+  }
+
+  // Adapter for react-window
+  const ListboxComponent = React.forwardRef<
+    HTMLDivElement,
+    React.HTMLAttributes<HTMLElement>
+  >(function ListboxComponent(props, ref) {
+    const { children, ...other } = props;
+    const itemData: React.ReactElement[] = [];
+    (children as React.ReactElement[]).forEach(
+      (item: React.ReactElement & { children?: React.ReactElement[] }) => {
+        itemData.push(item);
+        itemData.push(...(item.children || []));
+      },
+    );
+
+    const theme = useTheme();
+    const smUp = useMediaQuery(theme.breakpoints.up("sm"), {
+      noSsr: true,
+    });
+    const itemCount = itemData.length;
+    const itemSize = smUp ? 36 : 48;
+
+    const getChildSize = (child: React.ReactElement) => {
+      if (child.hasOwnProperty("group")) {
+        return 48;
+      }
+
+      return itemSize;
+    };
+
+    const getHeight = () => {
+      if (itemCount > 8) {
+        return 8 * itemSize;
+      }
+      return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+    };
+
+    const gridRef = useResetCache(itemCount);
+
+    return (
+      <div ref={ref}>
+        <OuterElementContext.Provider value={other}>
+          <VariableSizeList
+            itemData={itemData}
+            height={getHeight() + 2 * LISTBOX_PADDING}
+            width="100%"
+            ref={gridRef}
+            outerElementType={OuterElementType}
+            innerElementType="ul"
+            itemSize={(index: number) => getChildSize(itemData[index])}
+            overscanCount={5}
+            itemCount={itemCount}
+          >
+            {renderRow}
+          </VariableSizeList>
+        </OuterElementContext.Provider>
+      </div>
+    );
+  });
+
+  const StyledPopper = styled(Popper)({
+    [`& .${autocompleteClasses.listbox}`]: {
+      boxSizing: "border-box",
+      "& ul": {
+        padding: 0,
+        margin: 0,
+      },
+    },
+  });
 
   let addQuestion = () => {
     setQuestions(
@@ -133,6 +259,9 @@ export function GameBuilder(props: GameBuilderProps) {
       display: "flex",
       justifyContent: "space-between",
     } as const,
+    cardInput: {
+      margin: "10px 0px",
+    },
   };
 
   return (
@@ -170,9 +299,9 @@ export function GameBuilder(props: GameBuilderProps) {
                 )}
               </Box>
               <TextField
+                style={styles.cardInput}
                 label="Hint"
                 variant="outlined"
-                fullWidth
                 value={q.hint}
                 onChange={(e) => {
                   setQuestions(
@@ -192,20 +321,22 @@ export function GameBuilder(props: GameBuilderProps) {
                 error={hintHelperText(q) !== ""}
                 helperText={hintHelperText(q)}
               />
-              <TextField
-                id="outlined-basic"
-                label="Answer"
-                variant="outlined"
-                fullWidth
-                value={q.answer}
-                onChange={(e) => {
+              <Autocomplete
+                style={styles.cardInput}
+                freeSolo
+                disableListWrap
+                PopperComponent={StyledPopper}
+                ListboxComponent={ListboxComponent}
+                options={answerOptions}
+                groupBy={(option) => option[0].toUpperCase()}
+                onChange={(_, v) => {
                   setQuestions(
                     questions.map((q, j) => {
                       if (i == j) {
                         return {
                           hint: q.hint,
-                          answer: e.target.value,
-                          correct: !getError(e.target.value, letters),
+                          answer: v ?? "",
+                          correct: !getError(v ?? "", letters),
                         };
                       } else {
                         return q;
@@ -213,8 +344,37 @@ export function GameBuilder(props: GameBuilderProps) {
                     }),
                   );
                 }}
-                error={answerHelperText(q) !== ""}
-                helperText={answerHelperText(q)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    id="outlined-basic"
+                    label="Answer"
+                    variant="outlined"
+                    fullWidth
+                    value={q.answer}
+                    onChange={(e) => {
+                      setQuestions(
+                        questions.map((q, j) => {
+                          if (i == j) {
+                            return {
+                              hint: q.hint,
+                              answer: e.target.value,
+                              correct: !getError(e.target.value, letters),
+                            };
+                          } else {
+                            return q;
+                          }
+                        }),
+                      );
+                    }}
+                    error={answerHelperText(q) !== ""}
+                    helperText={answerHelperText(q)}
+                  />
+                )}
+                renderOption={(props, option, state) =>
+                  [props, option, state.index] as React.ReactNode
+                }
+                renderGroup={(params) => params as any}
               />
             </Paper>
           </Box>
