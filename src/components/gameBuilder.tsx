@@ -235,7 +235,7 @@ export function GameBuilder(props: GameBuilderProps) {
 
   const styles = {
     root: {
-      minHeight: "100vh",
+      height: "100vh",
     },
     box: {
       display: "flex",

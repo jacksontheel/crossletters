@@ -18,6 +18,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Puzzle } from "../models/models";
 import { NavBar } from "./navBar";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import { act } from "react-dom/test-utils";
 
 const supabase = createClient(
   "https://dhhhpggijxgbjejwfuja.supabase.co",
@@ -32,6 +33,7 @@ export function Game(props: GameProps) {
   let [dialogActive, setDialogActive] = useState(false);
   let [puzzle, setPuzzle] = useState<Puzzle>();
   let [progress, setProgress] = useState(0);
+  let [availableHints, setAvailableHints] = useState(0);
   let { code } = useParams();
 
   useEffect(() => {
@@ -72,20 +74,20 @@ export function Game(props: GameProps) {
     if (puzzle.questions[newActiveQuestion].correct ?? false) {
       setGuess(puzzle.questions[newActiveQuestion].answer.toUpperCase());
     } else {
-      setGuess("");
+      setGuess(
+        puzzle.questions[newActiveQuestion].answer
+          .toUpperCase()
+          .slice(0, puzzle.questions[newActiveQuestion].revealed?? 0),
+      );
     }
   };
 
-  let changeGuess = (add: string) => {
-    if (
-      puzzle != null &&
-      guess.length < puzzle.questions[activeQuestion].answer.length
-    ) {
-      let newGuess = guess.concat(add);
-      setGuess(newGuess);
+  let changeGuess = (g: string) => {
+    if (puzzle != null) {
+      setGuess(g);
       if (
         puzzle != null &&
-        newGuess.toUpperCase() ===
+        g.toUpperCase() ===
           puzzle.questions[activeQuestion].answer.toUpperCase()
       ) {
         puzzle.questions[activeQuestion].correct = true;
@@ -94,7 +96,38 @@ export function Game(props: GameProps) {
         if (newProgress === puzzle.questions.length) {
           setDialogActive(true);
         }
+        if (newProgress % 3 == 0) {
+          setAvailableHints(availableHints + 1);
+        }
       }
+    }
+  };
+
+  let addToGuess = (add: string) => {
+    if (
+      puzzle != null &&
+      guess.length < puzzle.questions[activeQuestion].answer.length
+    ) {
+      changeGuess(guess.concat(add));
+    }
+  };
+
+  let getHint = () => {
+    if (
+      puzzle != null &&
+      !(puzzle.questions[activeQuestion].correct ?? false)
+    ) {
+      if (puzzle.questions[activeQuestion].revealed == null) {
+        puzzle.questions[activeQuestion].revealed = 1;
+      } else {
+        puzzle.questions[activeQuestion].revealed! += 1;
+      }
+      changeGuess(
+        puzzle.questions[activeQuestion].answer
+          .slice(0, puzzle.questions[activeQuestion].revealed)
+          .toUpperCase(),
+      );
+      setAvailableHints(availableHints - 1);
     }
   };
 
@@ -102,7 +135,7 @@ export function Game(props: GameProps) {
     root: {
       display: "flex",
       flexDirection: "column",
-      minHeight: "100vh",
+      height: "100vh",
       justifyContent: "space-between",
     } as const,
     box: {
@@ -139,6 +172,14 @@ export function Game(props: GameProps) {
               <h1>&gt;</h1>
             </Button>
           </Box>
+          {availableHints > 0 &&
+            !(puzzle!.questions[activeQuestion].correct ?? false) && (
+              <Box style={styles.box}>
+                <Button onClick={() => getHint()}>
+                  <p>Get hint (available: {availableHints})</p>
+                </Button>
+              </Box>
+            )}
           <Box style={styles.box}>
             <Paper elevation={0} style={styles.box}>
               {Array.from(puzzle.questions[activeQuestion].answer).map(
@@ -146,6 +187,9 @@ export function Game(props: GameProps) {
                   <CharacterBox
                     character={guess.at(i) ?? ""}
                     size={puzzle!.questions[activeQuestion].answer.length}
+                    usedHint={
+                      (puzzle!.questions[activeQuestion].revealed ?? 0) > i
+                    }
                     correct={puzzle!.questions[activeQuestion].correct ?? false}
                   />
                 ),
@@ -157,7 +201,7 @@ export function Game(props: GameProps) {
               {puzzle.letters.slice(0, 4).map((l) => (
                 <CharacterButton
                   character={l.toUpperCase()}
-                  onClick={() => changeGuess(l.toUpperCase())}
+                  onClick={() => addToGuess(l.toUpperCase())}
                   correct={puzzle!.questions[activeQuestion].correct ?? false}
                 />
               ))}
@@ -166,14 +210,20 @@ export function Game(props: GameProps) {
               {puzzle.letters.slice(4, 7).map((l) => (
                 <CharacterButton
                   character={l.toUpperCase()}
-                  onClick={() => changeGuess(l.toUpperCase())}
+                  onClick={() => addToGuess(l.toUpperCase())}
                   correct={puzzle!.questions[activeQuestion].correct ?? false}
                 />
               ))}
               <CharacterButton
                 character="&lt;"
                 onClick={() => {
-                  setGuess(guess.substring(0, guess.length - 1));
+                  if (
+                    puzzle != null &&
+                    guess.length >
+                      (puzzle.questions[activeQuestion].revealed ?? 0)
+                  ) {
+                    setGuess(guess.substring(0, guess.length - 1));
+                  }
                 }}
                 correct={puzzle.questions[activeQuestion].correct ?? false}
               />
@@ -192,7 +242,7 @@ export function Game(props: GameProps) {
                   {puzzle.questions.length}
                 </p>
                 <p>
-                  {puzzle.questions.map((q) => (q.correct ? " 🟢 " : " ⚫ "))}
+                  {puzzle.questions.map((q) => (q.correct ? " 🟩 " : " ⬛ "))}
                 </p>
               </DialogContentText>
             </DialogContent>
@@ -203,7 +253,7 @@ export function Game(props: GameProps) {
                     navigator.clipboard.writeText(
                       "Crossletters " +
                         puzzle.questions
-                          .map((q) => (q.correct ? " 🟢 " : " ⚫ "))
+                          .map((q) => (q.correct ? " 🟩 " : " ⬛ "))
                           .join(""),
                     );
                   }

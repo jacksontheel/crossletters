@@ -4,6 +4,7 @@ export interface CharacterBoxProps {
   character: string;
   size: number;
   correct: boolean;
+  usedHint: boolean;
 }
 
 export default function CharacterBox(props: CharacterBoxProps) {
@@ -12,7 +13,11 @@ export default function CharacterBox(props: CharacterBoxProps) {
       width: `${50 / props.size}vw`,
       height: "100px",
       margin: "6px",
-      backgroundColor: props.correct ? "#2aa849" : "#121212",
+      backgroundColor: props.usedHint
+        ? "#b59f3b"
+        : props.correct
+          ? "#2aa849"
+          : "#121212",
 
       display: "flex",
       alignItems: "center",

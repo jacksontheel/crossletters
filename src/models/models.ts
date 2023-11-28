@@ -7,4 +7,5 @@ export type Question = {
   hint: string;
   answer: string;
   correct?: boolean;
+  revealed?: number;
 };
