@@ -261,4 +261,134 @@ export let puzzles: Puzzle[] = [
       },
     ],
   },
+  {
+    letters: ["n", "t", "a", "c", "u", "i", "o"],
+    questions: [
+      {
+        hint: "Another word for a bar, Mos Eisley on Tatooine",
+        answer: "cantina",
+      },
+      {
+        hint: "A tropical bird known for selling fruity cereal",
+        answer: "toucan",
+      },
+      {
+        hint: "When workers come together. Or marriage is a holy this",
+        answer: "union",
+      },
+      {
+        hint: "A type of drupe (seriously). Brings mounds of joy to some",
+        answer: "coconut",
+      },
+      {
+        hint: "Two hundred dollars, do I see three hundred? Sold!",
+        answer: "auction",
+      },
+      {
+        hint: "Built in Ireland, and it never made it to New York",
+        answer: "titanic",
+      },
+      {
+        hint: "United this stands, and divided this falls",
+        answer: "nation",
+      },
+      {
+        hint: "Knowing or understanding something without reasoning or proof.",
+        answer: "intuition",
+      },
+      {
+        hint: "The person who might be cooking your books, look out for IRS",
+        answer: "accountant",
+      },
+      {
+        hint: "The ritual recitation of verbal spells to conjure magic",
+        answer: "incantation",
+      },
+      {
+        hint: "These function as the object or subject of a sentence",
+        answer: "noun",
+      },
+      {
+        hint: "It comes in a can, and tastes and smells like cat food",
+        answer: "tuna",
+      },
+      {
+        hint: "Absolutely not",
+        answer: "no",
+      },
+      {
+        hint: "The saddest part of cooking is cutting one of these",
+        answer: "onion",
+      },
+      {
+        hint: "This time of year you might find a 5 dollar bill in one of these",
+        answer: "coat",
+      },
+    ],
+  },
+  {
+    letters: ["e", "p", "c", "u", "t", "i", "r"],
+    questions: [
+      {
+        hint: "In your bibliography, do this for your sources",
+        answer: "cite",
+      },
+      {
+        hint: "A vertical punch, hit them on the chin",
+        answer: "uppercut",
+      },
+      {
+        hint: "An operator for a marionette",
+        answer: "puppeteer",
+      },
+      {
+        hint: "What our electronics run on, or where cars race",
+        answer: "circuit",
+      },
+      {
+        hint: "What you need when you only have room for 999 words",
+        answer: "picture",
+      },
+      {
+        hint: "The last time Yellowstone did this was 70,000 years ago",
+        answer: "erupt",
+      },
+      {
+        hint: "This person has a table set up at high schools, join the army!",
+        answer: "recruiter",
+      },
+      {
+        hint: "As consumer goods increase in quality, they become this",
+        answer: "pricier",
+      },
+      {
+        hint: "Pan, Piper, Parker",
+        answer: "peter",
+      },
+      {
+        hint: "The national currency of India",
+        answer: "rupee",
+      },
+      {
+        hint: "The works of Homer, or the company that made Fortnite",
+        answer: "epic",
+      },
+      {
+        hint: "Save all of your this for tax season",
+        answer: "receipt",
+      },
+      {
+        hint: "A cake might have a few, or it's always good to be top this",
+        answer: "tier",
+      },
+      {
+        hint: "A this spends their days how they want, maybe with grandkids",
+        answer: "retiree",
+      },
+      {
+        hint: "There was a brief this on Christmas Day, 1914, despite the war",
+        answer: "truce",
+      },
+    ],
+  },
 ];

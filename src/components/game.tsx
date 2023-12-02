@@ -34,7 +34,7 @@ export function Game(props: GameProps) {
   let [puzzle, setPuzzle] = useState<Puzzle>();
   let [progress, setProgress] = useState(0);
   let [availableHints, setAvailableHints] = useState(0);
-  let [puzzleName, setPuzzleName] = useState ("")
+  let [puzzleName, setPuzzleName] = useState("");
   let { code } = useParams();
 
   useEffect(() => {
@@ -43,11 +43,11 @@ export function Game(props: GameProps) {
 
       if (data != null && data.length > 0) {
         setPuzzle((data[0] as any).data as Puzzle);
-        setPuzzleName(`Custom Crossletters ${code}`)
+        setPuzzleName(`Custom Crossletters ${code}`);
       } else {
-        let puzzleNumber = getDaysSinceStart() % puzzles.length
+        let puzzleNumber = getDaysSinceStart() % puzzles.length;
         setPuzzle(puzzles[puzzleNumber]);
-        setPuzzleName(`Crossletters Day ${puzzleNumber + 1}`)
+        setPuzzleName(`Crossletters Day ${puzzleNumber + 1}`);
       }
     };
 
@@ -81,7 +81,7 @@ export function Game(props: GameProps) {
       setGuess(
         puzzle.questions[newActiveQuestion].answer
           .toUpperCase()
-          .slice(0, puzzle.questions[newActiveQuestion].revealed?? 0),
+          .slice(0, puzzle.questions[newActiveQuestion].revealed ?? 0),
       );
     }
   };
@@ -138,16 +138,18 @@ export function Game(props: GameProps) {
   let scoreLines = () => {
     return [
       `Completed ${progress} out of ${puzzle?.questions.length} questions`,
-      scoreBlocks()
-    ]
-  }
+      scoreBlocks(),
+    ];
+  };
 
   let scoreBlocks = () => {
     if (puzzle != null) {
-      return puzzle.questions.map((q) => (q.correct ? (q.revealed?? 0) > 0? "🟨" : "🟩" : "⬛")).join(" ")
+      return puzzle.questions
+        .map((q) => (q.correct ? ((q.revealed ?? 0) > 0 ? "🟨" : "🟩") : "⬛"))
+        .join(" ");
     }
-    return ""
-  }
+    return "";
+  };
 
   const styles = {
     root: {
@@ -247,21 +249,22 @@ export function Game(props: GameProps) {
               />
             </Box>
           </div>
-          <Dialog
-            open={dialogActive}
-            keepMounted
-          >
+          <Dialog open={dialogActive} keepMounted>
             <DialogTitle>{puzzleName}</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                {scoreLines().map(l => <p>{l}</p>)}
+                {scoreLines().map((l) => (
+                  <p>{l}</p>
+                ))}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button
                 onClick={() => {
                   if (puzzle != null) {
-                    navigator.clipboard.writeText(`${puzzleName}\n${scoreLines().join("\n")}`);
+                    navigator.clipboard.writeText(
+                      `${puzzleName}\n${scoreLines().join("\n")}`,
+                    );
                   }
                 }}
               >
