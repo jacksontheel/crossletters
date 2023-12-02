@@ -55,7 +55,7 @@ export function Game(props: GameProps) {
   }, [code]);
 
   let getDaysSinceStart = () => {
-    let date1 = new Date("11/24/2023");
+    let date1 = new Date("12/02/2023");
     let date2 = new Date();
 
     let Difference_In_Time = date2.getTime() - date1.getTime();
