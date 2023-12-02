@@ -31,7 +31,7 @@ const darkTheme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={darkTheme}>
-      <BrowserRouter basename="/words">
+      <BrowserRouter basename="/crossletters">
         <Routes>
           <Route path="/" element={<Game />} />
           <Route path="/:code" element={<Game />} />

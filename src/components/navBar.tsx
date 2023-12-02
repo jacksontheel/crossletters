@@ -20,12 +20,12 @@ export function NavBar(props: NavBarProps) {
   };
   return (
     <AppBar position="sticky" style={styles.box}>
-      <Link href="/words" style={styles.item}>
+      <Link href="/crossletters" style={styles.item}>
         <h1>Crossletters</h1>
       </Link>
       <div>
         {props.elements != null && props.elements.map((e) => e)}
-        <Link href="/words/create">
+        <Link href="/crossletters/create">
           <IconButton>
             <CreateIcon />
           </IconButton>

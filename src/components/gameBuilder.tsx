@@ -421,8 +421,8 @@ export function GameBuilder(props: GameBuilderProps) {
             <p>
               Your puzzle has been created and can be shared with this link:
             </p>
-            <Link href={"https://jacksontheel.com/words/" + link}>
-              {"jacksontheel.com/words/" + link}
+            <Link href={"https://jacksontheel.com/crossletters/" + link}>
+              {"jacksontheel.com/crossletters/" + link}
             </Link>
           </DialogContentText>
         </DialogContent>
@@ -430,7 +430,7 @@ export function GameBuilder(props: GameBuilderProps) {
           <Button
             onClick={() =>
               navigator.clipboard.writeText(
-                "https://jacksontheel.com/words/" + link,
+                "https://jacksontheel.com/crossletters/" + link,
               )
             }
           >

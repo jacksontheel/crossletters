@@ -2,7 +2,7 @@
   "name": "cwords",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://jacksontheel.com/words",
+  "homepage": "https://jacksontheel.com/crossletters",
   "dependencies": {
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",
