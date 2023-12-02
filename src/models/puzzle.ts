@@ -391,4 +391,77 @@ export let puzzles: Puzzle[] = [
       },
     ],
   },
+  {
+    letters: [
+      "T",
+      "C",
+      "E",
+      "L",
+      "I",
+      "D",
+      "A"
+    ],
+    questions: [
+      {
+        hint: "An instrument used for getting soup out of the pot",
+        answer: "ladle"
+      },
+      {
+        hint: "You can hold a conversation, even if their this is different",
+        answer: "dialect"
+      },
+      {
+        hint: "When it's not this, it's big",
+        answer: "little"
+      },
+      {
+        hint: "Sorta green, sorta blue, it gets its name from a bird",
+        answer: "teal"
+      },
+      {
+        hint: "Rotate something 20 degrees and its this, or Towers in Fortnite",
+        answer: "tilted"
+      },
+      {
+        hint: "Small purple flowers native to the Balkan Peninsula",
+        answer: "lilac"
+      },
+      {
+        hint: "Those that sneak around poorly become this",
+        answer: "detected"
+      },
+      {
+        hint: "A childlike term for a snitch, rat, or informer",
+        answer: "tattletale"
+      },
+      {
+        hint: "Those that take office in democracies are this, by definition",
+        answer: "electee"
+      },
+      {
+        hint: "Something that's this is easily broken, handle carefully",
+        answer: "delicate"
+      },
+      {
+        hint: "Find these out in the desert, don't touch them",
+        answer: "cacti"
+      },
+      {
+        hint: "Don't get your way through lies and this",
+        answer: "deceit"
+      },
+      {
+        hint: "The absolute perfect verson of something is this",
+        answer: "ideal"
+      },
+      {
+        hint: "What disrespectful men might do to a woman on the street",
+        answer: "catcall"
+      },
+      {
+        hint: "We've had two of these since Y2K, feel old?",
+        answer: "decade"
+      }
+    ]
+  }
 ];
