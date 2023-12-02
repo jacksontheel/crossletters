@@ -34,6 +34,7 @@ export function Game(props: GameProps) {
   let [puzzle, setPuzzle] = useState<Puzzle>();
   let [progress, setProgress] = useState(0);
   let [availableHints, setAvailableHints] = useState(0);
+  let [puzzleName, setPuzzleName] = useState ("")
   let { code } = useParams();
 
   useEffect(() => {
@@ -42,8 +43,11 @@ export function Game(props: GameProps) {
 
       if (data != null && data.length > 0) {
         setPuzzle((data[0] as any).data as Puzzle);
+        setPuzzleName(`Custom Crossletters ${code}`)
       } else {
-        setPuzzle(puzzles[getDaysSinceStart() % puzzles.length]);
+        let puzzleNumber = getDaysSinceStart() % puzzles.length
+        setPuzzle(puzzles[puzzleNumber]);
+        setPuzzleName(`Crossletters Day ${puzzleNumber + 1}`)
       }
     };
 
@@ -130,6 +134,20 @@ export function Game(props: GameProps) {
       setAvailableHints(availableHints - 1);
     }
   };
+
+  let scoreLines = () => {
+    return [
+      `Completed ${progress} out of ${puzzle?.questions.length} questions`,
+      scoreBlocks()
+    ]
+  }
+
+  let scoreBlocks = () => {
+    if (puzzle != null) {
+      return puzzle.questions.map((q) => (q.correct ? (q.revealed?? 0) > 0? "🟨" : "🟩" : "⬛")).join(" ")
+    }
+    return ""
+  }
 
   const styles = {
     root: {
@@ -232,30 +250,18 @@ export function Game(props: GameProps) {
           <Dialog
             open={dialogActive}
             keepMounted
-            aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>Crossletters</DialogTitle>
+            <DialogTitle>{puzzleName}</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                <p>
-                  You've completed {progress} questions out of{" "}
-                  {puzzle.questions.length}
-                </p>
-                <p>
-                  {puzzle.questions.map((q) => (q.correct ? " 🟩 " : " ⬛ "))}
-                </p>
+                {scoreLines().map(l => <p>{l}</p>)}
               </DialogContentText>
             </DialogContent>
             <DialogActions>
               <Button
                 onClick={() => {
                   if (puzzle != null) {
-                    navigator.clipboard.writeText(
-                      "Crossletters " +
-                        puzzle.questions
-                          .map((q) => (q.correct ? " 🟩 " : " ⬛ "))
-                          .join(""),
-                    );
+                    navigator.clipboard.writeText(`${puzzleName}\n${scoreLines().join("\n")}`);
                   }
                 }}
               >
