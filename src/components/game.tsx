@@ -1,4 +1,6 @@
 import {
+  BottomNavigation,
+  BottomNavigationAction,
   Box,
   Button,
   Dialog,
@@ -7,6 +9,9 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
 } from "@mui/material";
 import { CharacterButton } from "./characterButton";
@@ -18,7 +23,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Puzzle } from "../models/models";
 import { NavBar } from "./navBar";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import { act } from "react-dom/test-utils";
+import InfoIcon from "@mui/icons-material/Info";
 
 const supabase = createClient(
   "https://dhhhpggijxgbjejwfuja.supabase.co",
@@ -30,20 +35,24 @@ export interface GameProps {}
 export function Game(props: GameProps) {
   let [activeQuestion, setActiveQuestion] = useState(0);
   let [guess, setGuess] = useState("");
-  let [dialogActive, setDialogActive] = useState(false);
+  let [scoreDialogActive, setScoreDialogActive] = useState(false);
+  let [infoDialogActive, setInfoDialogActive] = useState(false);
   let [puzzle, setPuzzle] = useState<Puzzle>();
   let [progress, setProgress] = useState(0);
   let [availableHints, setAvailableHints] = useState(0);
   let [puzzleName, setPuzzleName] = useState("");
+  let [customPuzzle, setCustomPuzzle] = useState(false);
   let { code } = useParams();
 
   useEffect(() => {
     let loadPuzzle = async () => {
+      console.log(code);
       const { data } = await supabase.from("puzzles").select().eq("code", code);
 
       if (data != null && data.length > 0) {
         setPuzzle((data[0] as any).data as Puzzle);
         setPuzzleName(`Custom Crossletters ${code}`);
+        setCustomPuzzle(true);
       } else {
         let puzzleNumber = getDaysSinceStart() % puzzles.length;
         setPuzzle(puzzles[puzzleNumber]);
@@ -98,9 +107,9 @@ export function Game(props: GameProps) {
         let newProgress = progress + 1;
         setProgress(newProgress);
         if (newProgress === puzzle.questions.length) {
-          setDialogActive(true);
+          setScoreDialogActive(true);
         }
-        if (newProgress % 3 == 0) {
+        if (newProgress % 2 == 0) {
           setAvailableHints(availableHints + 1);
         }
       }
@@ -168,13 +177,19 @@ export function Game(props: GameProps) {
       textAlign: "center",
       width: "80vh",
     } as const,
+    footer: {
+      backgroundColor: "transparent",
+    },
+    footerIcon: {
+      marginLeft: "auto",
+    },
   };
 
   return (
     <Paper style={styles.root}>
       <NavBar
         elements={[
-          <IconButton onClick={() => setDialogActive(true)}>
+          <IconButton onClick={() => setScoreDialogActive(true)}>
             <BarChartIcon />
           </IconButton>,
         ]}
@@ -249,7 +264,7 @@ export function Game(props: GameProps) {
               />
             </Box>
           </div>
-          <Dialog open={dialogActive} keepMounted>
+          <Dialog open={scoreDialogActive} keepMounted>
             <DialogTitle>{puzzleName}</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -270,10 +285,51 @@ export function Game(props: GameProps) {
               >
                 Copy score
               </Button>
-              <Button onClick={() => setDialogActive(false)}>Close</Button>
+              <Button onClick={() => setScoreDialogActive(false)}>Close</Button>
+            </DialogActions>
+          </Dialog>
+          <Dialog open={infoDialogActive} keepMounted>
+            <DialogTitle>Authors</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                These questions are sourced from historical New York Times
+                crosswords, and would not be possible without the following
+                talented clue authors:
+              </DialogContentText>
+              <List>
+                {Object.entries(
+                  puzzle.questions.reduce(
+                    (acc, q) => {
+                      acc[q.author ?? ""] = acc[q.author ?? ""] || [];
+                      acc[q.author ?? ""].push(q.hint);
+                      return acc;
+                    },
+                    {} as { [author: string]: string[] },
+                  ),
+                ).map(([author, clues]) => (
+                  <ListItem>
+                    <ListItemText
+                      primary={author}
+                      secondary={clues.join(", ")}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setInfoDialogActive(false)}>Close</Button>
             </DialogActions>
           </Dialog>
         </Box>
+      )}
+      {!customPuzzle && (
+        <BottomNavigation style={styles.footer}>
+          <BottomNavigationAction
+            icon={<InfoIcon />}
+            onClick={() => setInfoDialogActive(true)}
+            style={styles.footerIcon}
+          />
+        </BottomNavigation>
       )}
     </Paper>
   );
